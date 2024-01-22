@@ -9,7 +9,7 @@
 <body>
     <div id="login-container">
         <h2>Connexion</h2>
-        <form action="login.php" method="post">
+        <form action="acceuil.php" method="post">
             <div class="form-group">
                 <label for="username">Nom d'utilisateur :</label>
                 <input type="text" id="username" name="username" required placeholder="DrSanté">
@@ -19,7 +19,7 @@
                 <input type="password" id="password" name="password" required placeholder="••••••••">
             </div>
             <div class="form-group">
-                <button type="submit">Se connecter</button>
+            <li><button href="acceuil.php">Se connecter</button></li>
             </div>
         </form>
     </div>

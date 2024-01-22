@@ -26,7 +26,8 @@
                     <p>Adresse: ${patient.adresse}</p>
                     <p>Condition médicale: ${patient.condition_medical}</p>
                     <p>Téléphone: ${patient.telephone}</p>
-                    <button>Modifier le profil</button>
+                    <button onclick="window.location.href='listepatient.php'">Retour</button>
+
                 `;
             } else {
                 document.getElementById('patient-profile').innerText = 'Patient non trouvé.';
