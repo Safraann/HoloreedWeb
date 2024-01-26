@@ -1,0 +1,24 @@
+{
+    "database": 
+    {
+      "host": "localhost",
+      "user": "root",
+      "password": "password"
+    },
+    "User" : 
+    {
+      "status" : false,
+      "query" : " CREATE TABLE IF NOT EXISTS User (id INT PRIMARY KEY, name VARCHAR(255) SECONDARY KEY, forname VARCHAR(255) SECONDARY KEY, username VARCHAR(255), password VARCHAR(255))"
+    },
+    "Patient" :
+    {
+      "status" : false,
+      "query" : " CREATE TABLE IF NOT EXISTS Patient (id INT PRIMARY KEY, name VARCHAR(255) SECONDARY KEY, forname VARCHAR(255) SECONDARY KEY, birthday DATE, about VARCHAR(510))"
+    },
+    "Session" :
+    {
+      "status" : false,
+      "query" : " CREATE TABLE IF NOT EXISTS Session (id INT PRIMARY KEY, patient_id INT SECONDARY KEY, user_id INT SECONDARY KEY, session_type INT, session_date DATE, session_time TIME) "
+    }
+}
+  
