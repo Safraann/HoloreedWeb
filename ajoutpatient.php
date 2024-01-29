@@ -1,4 +1,20 @@
-<?php include 'header.php'; ?>
+<?php
+include 'header.php';
+
+// Vérifier si le formulaire a été soumis
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Inclure le fichier de configuration de la base de données
+    include 'config.php';
+
+    // Préparer et exécuter la requête INSERT
+    $sql = "INSERT INTO patients (nom, prenom, date, adresse, conditions, telephone) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$_POST['nom'], $_POST['prenom'], $_POST['date_naissance'], $_POST['adresse'], $_POST['condition_medical'], $_POST['phone']]);
+    // Rediriger vers listepatient.php
+    header("Location: listepatient.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -13,7 +29,7 @@
 <body>
     <div id="form-container">
         <h1>Ajouter un nouveau patient</h1>
-        <form id="add-patient-form">
+        <form id="add-patient-form" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" id="nom" name="nom" required>
@@ -36,12 +52,9 @@
             </div>
 
             <div class="form-group">
-                <label for="phone">Numéro de télephone:</label>
+                <label for="phone">Numéro de téléphone:</label>
                 <input type="tel" id="phone" name="phone">
             </div>
-
-
-
 
             <div class="form-group">
                 <button type="submit">Ajouter le patient</button>
@@ -55,31 +68,5 @@
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
         });
     </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('add-patient-form');
-            form.addEventListener('submit', function (event) {
-                event.preventDefault(); // Empêcher la soumission réelle du formulaire
-
-                // Récupérer les valeurs du formulaire
-                const nom = document.getElementById('nom').value;
-                const prenom = document.getElementById('prenom').value;
-                const date_naissance = document.getElementById('date_naissance').value;
-                const adresse = document.getElementById('adresse').value;
-                const condition_medical = document.getElementById('condition_medical').value;
-                const telephone = document.getElementById('phone').value;
-
-                // Récupérer les patients existants et ajouter le nouveau
-                const patients = JSON.parse(localStorage.getItem('patients')) || [];
-                patients.push({ nom, prenom, date_naissance, adresse, condition_medical, telephone });
-                localStorage.setItem('patients', JSON.stringify(patients));
-
-                // Rediriger vers listepatient.php
-                window.location.href = 'listepatient.php';
-            });
-        });
-    </script>
 </body>
-
 </html>

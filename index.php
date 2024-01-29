@@ -4,8 +4,6 @@ session_start(); // Démarrage de la session
 // Vérifiez si nous avons un message d'erreur précédent à afficher
 $errorMessage = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 unset($_SESSION['error']); // Effacez le message d'erreur pour les futures requêtes
-
-include 'header.php'; // Assurez-vous que ce fichier existe et est correctement configuré
 ?>
 
 <!DOCTYPE html>

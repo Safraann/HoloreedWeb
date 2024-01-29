@@ -1,4 +1,12 @@
-<?php include 'header.php'; ?>
+<?php
+include 'header.php';
+include 'config.php'; // Inclure le fichier de configuration de la base de données
+
+// Récupérer la liste des patients depuis la base de données
+$sql = "SELECT * FROM patients";
+$stmt = $pdo->query($sql);
+$patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -21,32 +29,20 @@
                 </tr>
             </thead>
             <tbody id="patients-table-body">
-                <!-- Les patients seront ajoutés ici par JavaScript -->
+                <?php foreach ($patients as $patient): ?>
+                    <tr>
+                        <td><?= $patient['nom'] ?></td>
+                        <td><?= $patient['prenom'] ?></td>
+                        <td><?= $patient['date'] ?></td>
+                        <td><a href="profilepatient.php?patient_id=<?= $patient['id'] ?>">Voir profil</a></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
         <div class="button-container">
             <a href="ajoutpatient.php"><button>Ajouter un patient</button></a>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const patientsTableBody = document.getElementById('patients-table-body');
-
-            // Récupérer la liste des patients depuis localStorage
-            const patients = JSON.parse(localStorage.getItem('patients')) || [];
-
-            patients.forEach(function (patient, index) {
-                const patientRow = document.createElement('tr');
-                patientRow.innerHTML = `
-                    <td>${patient.nom}</td>
-                    <td>${patient.prenom}</td>
-                    <td>${patient.date_naissance}</td>
-                    <td><a href="profilepatient.php?patient_id=${index + 1}">Voir profil</a></td>
-                `;
-                patientsTableBody.appendChild(patientRow);
-            });
-        });
-    </script>
 </body>
 
 </html>
