@@ -14,6 +14,7 @@
                 <li><a href="listepatient.php">Patients</a></li>
                 <li><a href="edt.php">Emploi du Temps</a></li>
                 <li><a href="exercice.php">Exercices</a></li>
+				<li><a href="clear_session.php">Se déconnecter</a></li>
             </ul>
         </nav>
     </header>

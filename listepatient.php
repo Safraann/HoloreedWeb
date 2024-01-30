@@ -26,6 +26,7 @@ $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th>Prénom</th>
                     <th>Date de naissance</th>
                     <th>Profil</th>
+                    <th>Action</th> <!-- Nouvelle colonne pour le bouton Supprimer -->
                 </tr>
             </thead>
             <tbody id="patients-table-body">
@@ -35,6 +36,7 @@ $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= $patient['prenom'] ?></td>
                         <td><?= $patient['date'] ?></td>
                         <td><a href="profilepatient.php?patient_id=<?= $patient['id'] ?>">Voir profil</a></td>
+                        <td><a href="retirerpatient.php?patient_id=<?= $patient['id'] ?>">Supprimer</a></td> <!-- Bouton Supprimer -->
                     </tr>
                 <?php endforeach; ?>
             </tbody>

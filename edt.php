@@ -13,7 +13,7 @@ if (!isset($_SESSION['id_medecin'])) {
 $idMedecin = $_SESSION['id_medecin']; // Récupérer l'ID du médecin connecté à partir de la session
 
 // Récupérer les séances à partir de la base de données
-$sql = "SELECT date_rdv, time_rdv, description, patient_id FROM seances WHERE medecin_id = :medecin_id";
+$sql = "SELECT id, date_rdv, time_rdv, description, patient_id FROM seances WHERE medecin_id = :medecin_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':medecin_id', $idMedecin, PDO::PARAM_INT);
 $stmt->execute();
@@ -32,6 +32,7 @@ foreach ($seances as $sceance) {
 
     // Créer un événement pour le calendrier
     $event = [
+        'id' => $sceance['id'],
         'title' => $patient['nom'] . ' - ' . $sceance['time_rdv'],
         'start' => $sceance['date_rdv'] . 'T' . $sceance['time_rdv'],
         'description' => $sceance['description']
@@ -47,9 +48,9 @@ foreach ($seances as $sceance) {
     <meta charset="UTF-8">
     <title>Emploi du temps</title>
     <link rel="stylesheet" href="style.css">
-    <link href='https://unpkg.com/fullcalendar@5/main.min.css' rel='stylesheet' />
-    <script src='https://unpkg.com/fullcalendar@5/main.min.js'></script>
-    <script src='https://unpkg.com/fullcalendar@5/core/locales/fr.js'></script>
+    <link href='fullcalendar/main.min.css' rel='stylesheet' />
+    <script src='fullcalendar/main.min.js'></script>
+    <script src='fullcalendar/fr.js'></script>
 </head>
 
 <body>
@@ -63,6 +64,7 @@ foreach ($seances as $sceance) {
         <div class="modal-content">
             <span class="close-button" onclick="closeModal()">&times;</span>
             <p id="eventDetails"></p>
+            <a id="removeEventButton" href="#" style="display: none;">Retirer séance</a>
         </div>
     </div>
 
@@ -97,7 +99,8 @@ foreach ($seances as $sceance) {
                     }
 
                     return {
-                        html: '<b>' + eventTime + '</b><b><b>' + patientName + '</b> '
+                        html: '<b>' + eventTime + '</b><b><b>' + patientName + '</b> ',
+                        id: info.event.id
                     };
                 },
                 eventClick: function (info) {
@@ -105,6 +108,8 @@ foreach ($seances as $sceance) {
                         'Date : ' + info.event.start.toLocaleString() + '<br>' +
                         'Description : ' + (info.event.extendedProps.description || 'Pas de description');
                     document.getElementById('eventDetails').innerHTML = details;
+                    document.getElementById('removeEventButton').setAttribute('href', 'retirerseance.php?seance_id=' + info.event.id);
+                    document.getElementById('removeEventButton').style.display = 'inline'; // Afficher le bouton "Retirer séance"
                     document.getElementById('eventModal').style.display = 'block';
                 }
             });
